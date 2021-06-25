@@ -1,7 +1,7 @@
 # game-search-expo
 
 Mobile app that lets you search for games.
-Using [IGDB](https://www.igdb.com/) built with [Expo](https://expo.io/) ([React Native](https://reactnative.dev/)).
+Using [IGDB](https://www.igdb.com/) and built with [Expo](https://expo.io/) ([React Native](https://reactnative.dev/)).
 
 # 📌 To Do
 
