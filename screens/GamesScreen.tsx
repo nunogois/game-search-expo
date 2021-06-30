@@ -11,6 +11,11 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { RootState } from '../store/store'
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../components/UI/HeaderButton'
+
+import * as Linking from 'expo-linking'
+
 import GameItem from '../components/GameItem'
 import Search from '../components/Search'
 import * as gamesActions from '../store/actions/games'
@@ -58,7 +63,7 @@ const GamesScreen = props => {
       <View style={styles.centered}>
         <Text>An error occurred!</Text>
         <Text>{error}</Text>
-        <Button title="Try again" onPress={loadGames} color={Colors.primary} />
+        <Button title='Try again' onPress={loadGames} color={Colors.primary} />
       </View>
     )
   }
@@ -66,7 +71,7 @@ const GamesScreen = props => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size='large' color={Colors.primary} />
       </View>
     )
   }
@@ -80,10 +85,11 @@ const GamesScreen = props => {
   }
 
   return (
-    <>
+    <View style={styles.gamesScreen}>
       <Search onSearch={searchHandler} />
       <FlatList
         data={games}
+        keyExtractor={item => item.id.toString()}
         renderItem={itemData => (
           <GameItem
             game={itemData.item}
@@ -93,18 +99,36 @@ const GamesScreen = props => {
           />
         )}
       />
-    </>
+    </View>
   )
 }
 
 export const screenOptions = () => {
   return {
-    headerTitle: 'game-search-expo'
+    headerTitle: 'game-search-expo',
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title='GitHub'
+          iconName='logo-github'
+          onPress={() => {
+            Linking.openURL('https://github.com/nunogois/game-search-expo')
+          }}
+        />
+      </HeaderButtons>
+    )
   }
 }
 
 const styles = StyleSheet.create({
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  gamesScreen: {
+    flex: 1
+  }
 })
 
 export default GamesScreen

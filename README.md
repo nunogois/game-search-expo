@@ -9,10 +9,10 @@ Using [IGDB](https://www.igdb.com/) and built with [Expo](https://expo.io/) ([Re
 - [x] Basic setup;
 - [x] Setup navigation;
 - [x] Setup Redux;
-- [ ] Setup IGDB proxy API;
-- [ ] Games screen;
-- [ ] GameItem component;
-- [ ] Show latest highly rated games (https://api-docs.igdb.com/#sorting);
+- [x] Setup IGDB proxy API (https://github.com/nunogois/igdb-api);
+- [x] Games screen;
+- [x] GameItem component;
+- [x] Show latest highly rated games (https://api-docs.igdb.com/#sorting);
 - [ ] Search component;
 - [ ] Allow searching;
 - [ ] Game detail screen;

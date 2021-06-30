@@ -7,15 +7,11 @@ export type GamesAction = { type: any; games: any }
 export const fetchGames = () => {
   return async (dispatch: any) => {
     try {
-      const response = await fetch(`https://api.igdb.com/v4/games`, {
+      const response = await fetch(`https://igdb-api.nunogois.com/list`, {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer ',
-          'Client-ID': ''
-        },
-        body: `fields id, first_release_date, platforms.platform_logo.url, cover.url, total_rating;
-        search "mario";
-        where version_parent = null;`
+          Authorization: `Bearer ${process.env.TOKEN}`
+        }
       })
 
       if (!response.ok) throw new Error('Something went wrong!')
@@ -28,12 +24,12 @@ export const fetchGames = () => {
           new Game(
             game.id,
             game.name,
-            `https:${game.cover.url.replace('t_thumb', 't_cover_small')}`,
+            `https:${game.cover.url.replace('t_thumb', 't_cover_big')}`,
             new Date(game.first_release_date * 1000)
               .toISOString()
               .split('T')[0],
-            game.platforms.map((p: any) => p.platform_logo.url),
-            game.total_rating.toFixed()
+            game.platforms.map((p: any) => `https:${p.platform_logo.url}`),
+            +game.total_rating.toFixed()
           )
         )
       })
