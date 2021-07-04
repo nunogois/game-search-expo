@@ -12,37 +12,45 @@ const Search = (props: SearchProps) => {
 
   return (
     <View style={styles.search}>
-      <Text style={styles.label}>Search</Text>
-      <TextInput
-        style={styles.input}
-        value={search}
-        onChangeText={text => {
-          setSearch(text)
-        }}
-      />
-      <Button
-        title="Search"
-        color={Colors.primary}
-        onPress={() => {
-          props.onSearch(search)
-        }}
-      />
+      <View style={styles.search_input}>
+        <TextInput
+          style={styles.input}
+          value={search}
+          placeholder='Search'
+          onChangeText={text => {
+            setSearch(text)
+          }}
+        />
+      </View>
+      <View style={styles.button}>
+        <Button
+          title='Search'
+          color={Colors.primary}
+          onPress={() => {
+            props.onSearch(search)
+          }}
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   search: {
-    width: '100%'
-  },
-  label: {
-    marginVertical: 8
+    margin: 10,
+    flexDirection: 'row',
+    borderColor: '#ccc',
+    borderWidth: 1
   },
   input: {
-    paddingHorizontal: 2,
-    paddingVertical: 5,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1
+    paddingHorizontal: 5,
+    paddingVertical: 3
+  },
+  search_input: {
+    flex: 0.8
+  },
+  button: {
+    flex: 0.2
   }
 })
 

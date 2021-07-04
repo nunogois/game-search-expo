@@ -37,15 +37,17 @@ const GameItem = (props: GameItemProps) => {
             </View>
           </View>
           <View style={styles.rating}>
-            <AnimatedCircularProgress
-              size={50}
-              width={3}
-              rotation={0}
-              fill={props.game.rating}
-              tintColor={ratingColor}
-            >
-              {() => <Text>{props.game.rating}</Text>}
-            </AnimatedCircularProgress>
+            {!isNaN(props.game.rating) && (
+              <AnimatedCircularProgress
+                size={50}
+                width={3}
+                rotation={0}
+                fill={props.game.rating}
+                tintColor={ratingColor}
+              >
+                {() => <Text>{props.game.rating}</Text>}
+              </AnimatedCircularProgress>
+            )}
           </View>
         </View>
       </View>

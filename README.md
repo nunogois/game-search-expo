@@ -13,8 +13,8 @@ Using [IGDB](https://www.igdb.com/) and built with [Expo](https://expo.io/) ([Re
 - [x] Games screen;
 - [x] GameItem component;
 - [x] Show latest highly rated games (https://api-docs.igdb.com/#sorting);
-- [ ] Search component;
-- [ ] Allow searching;
+- [x] Search component;
+- [x] Allow searching;
 - [ ] Game detail screen;
 - [ ] Make TypeScript happy;
 - [ ] Add tests;

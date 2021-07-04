@@ -18,18 +18,23 @@ const defaultNavOptions = {
   headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
 }
 
-const GamesStackNavigator = createStackNavigator()
+export type GamesStackParamList = {
+  Games: undefined
+  GameDetail: { gameId: number; gameName: string }
+}
+
+const GamesStackNavigator = createStackNavigator<GamesStackParamList>()
 
 const GamesNavigator = () => {
   return (
     <GamesStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <GamesStackNavigator.Screen
-        name="Games"
+        name='Games'
         component={GamesScreen}
         options={gamesScreenOptions}
       />
       <GamesStackNavigator.Screen
-        name="GameDetail"
+        name='GameDetail'
         component={GameDetailScreen}
         options={gameDetailScreenOptions}
       />

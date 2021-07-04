@@ -9,6 +9,9 @@ import {
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { StackNavigationProp } from '@react-navigation/stack'
+import { GamesStackParamList } from '../navigation/GamesNavigator'
+
 import { RootState } from '../store/store'
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -22,22 +25,30 @@ import * as gamesActions from '../store/actions/games'
 
 import Colors from '../constants/Colors'
 
-const GamesScreen = props => {
+type Props = {
+  navigation: StackNavigationProp<GamesStackParamList, 'Games'>
+}
+
+const GamesScreen = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isSearching, setIsSearching] = useState<string | null>(null)
   const [error, setError] = useState<string | null>()
 
   const games = useSelector((state: RootState) => state.games.games)
 
   const dispatch = useDispatch()
 
-  const loadGames = useCallback(async () => {
-    setError(null)
-    try {
-      await dispatch(gamesActions.fetchGames())
-    } catch (err) {
-      setError(err.message)
-    }
-  }, [dispatch, setIsLoading, setError])
+  const loadGames = useCallback(
+    async (search: string = '') => {
+      setError(null)
+      try {
+        await dispatch(gamesActions.fetchGames(search))
+      } catch (err) {
+        setError(err.message)
+      }
+    },
+    [dispatch, setIsLoading, setError]
+  )
 
   useEffect(() => {
     setIsLoading(true)
@@ -46,9 +57,11 @@ const GamesScreen = props => {
     })
   }, [dispatch, loadGames])
 
-  const searchHandler = (search: string) => {
+  const searchHandler = async (search: string) => {
     console.log('searching for...', search)
-    // loadGames but FILTERED to search
+    setIsSearching(search)
+    await loadGames(search)
+    setIsSearching(null)
   }
 
   const selectItemHandler = (id: number, name: string) => {
@@ -63,7 +76,13 @@ const GamesScreen = props => {
       <View style={styles.centered}>
         <Text>An error occurred!</Text>
         <Text>{error}</Text>
-        <Button title='Try again' onPress={loadGames} color={Colors.primary} />
+        <Button
+          title='Try again'
+          onPress={() => {
+            loadGames()
+          }}
+          color={Colors.primary}
+        />
       </View>
     )
   }
@@ -76,29 +95,35 @@ const GamesScreen = props => {
     )
   }
 
-  if (!isLoading && games.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <Text>No games found.</Text>
-      </View>
-    )
-  }
-
   return (
     <View style={styles.gamesScreen}>
       <Search onSearch={searchHandler} />
-      <FlatList
-        data={games}
-        keyExtractor={item => item.id.toString()}
-        renderItem={itemData => (
-          <GameItem
-            game={itemData.item}
-            onSelect={() => {
-              selectItemHandler(itemData.item.id, itemData.item.name)
-            }}
-          />
-        )}
-      />
+      {!isLoading && games.length === 0 ? (
+        <View style={styles.centered}>
+          <Text>No games found.</Text>
+        </View>
+      ) : isSearching != null ? (
+        <View style={styles.centered}>
+          <Text>
+            {isSearching
+              ? `Searching for ${isSearching}...`
+              : 'Loading popular games...'}
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={games}
+          keyExtractor={item => item.id.toString()}
+          renderItem={itemData => (
+            <GameItem
+              game={itemData.item}
+              onSelect={() => {
+                selectItemHandler(itemData.item.id, itemData.item.name)
+              }}
+            />
+          )}
+        />
+      )}
     </View>
   )
 }

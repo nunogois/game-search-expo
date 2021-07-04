@@ -4,14 +4,16 @@ export const SET_GAMES = 'SET_GAMES'
 
 export type GamesAction = { type: any; games: any }
 
-export const fetchGames = () => {
+export const fetchGames = (search: string = '') => {
   return async (dispatch: any) => {
     try {
       const response = await fetch(`https://igdb-api.nunogois.com/list`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.TOKEN}`
-        }
+          Authorization: `Bearer ${process.env.TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ search })
       })
 
       if (!response.ok) throw new Error('Something went wrong!')
@@ -24,12 +26,16 @@ export const fetchGames = () => {
           new Game(
             game.id,
             game.name,
-            `https:${game.cover.url.replace('t_thumb', 't_cover_big')}`,
-            new Date(game.first_release_date * 1000)
-              .toISOString()
-              .split('T')[0],
-            game.platforms.map((p: any) => `https:${p.platform_logo.url}`),
-            +game.total_rating.toFixed()
+            `https:${game.cover?.url.replace('t_thumb', 't_cover_big')}`,
+            game.first_release_date
+              ? new Date(game.first_release_date * 1000)
+                  .toISOString()
+                  .split('T')[0]
+              : '',
+            game.platforms
+              ? game.platforms.map((p: any) => `https:${p.platform_logo?.url}`)
+              : [],
+            +game.total_rating?.toFixed()
           )
         )
       })
