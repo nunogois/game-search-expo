@@ -1,7 +1,11 @@
 import Game from '../../models/game'
 import { SET_GAMES, SET_GAME, GamesAction } from '../actions/games'
 
-const initialState = {
+export interface GamesBasicState {
+  games: Game[]
+}
+
+const initialState: GamesBasicState = {
   games: []
 }
 

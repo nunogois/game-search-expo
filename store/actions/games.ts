@@ -13,7 +13,7 @@ const mapGames = (data: []) => {
       new Game(
         game.id,
         game.name,
-        `https:${game.cover?.url.replace('t_thumb', 't_cover_big')}`,
+        `https:${game.cover?.url.replace('t_thumb', 't_cover_big_2x')}`,
         game.first_release_date
           ? new Date(game.first_release_date * 1000).toISOString().split('T')[0]
           : '',
@@ -32,12 +32,19 @@ const mapGames = (data: []) => {
         game.involved_companies
           ? game.involved_companies.map((c: any) => c.company?.name)
           : [],
-        game.screenshots ? game.screenshots.map((s: any) => s.url) : [],
+        game.screenshots
+          ? game.screenshots.map(
+              (s: any) => `https:${s.url.replace('t_thumb', 't_cover_big_2x')}`
+            )
+          : [],
         game.similar_games
           ? game.similar_games.map((g: any) => ({
               id: g.id,
               name: g.name,
-              image: g.cover?.url
+              image: `https:${g.cover?.url.replace(
+                't_thumb',
+                't_cover_big_2x'
+              )}`
             }))
           : []
       )

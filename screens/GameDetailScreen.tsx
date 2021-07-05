@@ -6,7 +6,9 @@ import {
   Image,
   StyleSheet,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions,
+  TouchableOpacity
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -18,6 +20,8 @@ import * as gamesActions from '../store/actions/games'
 import Colors from '../constants/Colors'
 import Rating from '../components/Rating'
 
+import Carousel from 'react-native-snap-carousel'
+
 import * as Linking from 'expo-linking'
 
 const GameDetailScreen = (props: any) => {
@@ -26,16 +30,20 @@ const GameDetailScreen = (props: any) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>()
 
-  let game: Game = useSelector((state: RootState) => state.games.games).find(
+  let game = useSelector((state: RootState) => state.games.games).find(
     (g: Game) => g.id === gameId
   )
+
+  const Screen = Dimensions.get('window')
 
   const dispatch = useDispatch()
 
   const loadGame = useCallback(async () => {
     setError(null)
+    setIsLoading(true)
     try {
       await dispatch(gamesActions.fetchGame(gameId))
+      setIsLoading(false)
     } catch (err) {
       setError(err.message)
     }
@@ -43,14 +51,26 @@ const GameDetailScreen = (props: any) => {
 
   useEffect(() => {
     if (!game) {
-      setIsLoading(true)
-      loadGame().then(() => {
-        setIsLoading(false)
-      })
+      loadGame()
     }
-  }, [dispatch, loadGame])
+  }, [loadGame, game])
 
-  if (error) {
+  const selectItemHandler = (id: number, name: string) => {
+    props.navigation.push('GameDetail', {
+      gameId: id,
+      gameName: name
+    })
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size='large' color={Colors.primary} />
+      </View>
+    )
+  }
+
+  if (!game || error) {
     return (
       <View style={styles.centered}>
         <Text>An error occurred!</Text>
@@ -66,14 +86,6 @@ const GameDetailScreen = (props: any) => {
     )
   }
 
-  if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size='large' color={Colors.primary} />
-      </View>
-    )
-  }
-
   return (
     <ScrollView>
       <View style={styles.gameDetailScreen}>
@@ -84,7 +96,9 @@ const GameDetailScreen = (props: any) => {
           <Rating style={styles.rating} value={game.rating} />
         </View>
         <View>
-          <Text style={styles.summary}>{game.summary}</Text>
+          <Text style={styles.headerTitle}>Description</Text>
+          <Text>{game.summary}</Text>
+          <Text style={styles.headerTitle}>Information</Text>
           <Text>
             <Text style={styles.label}>Release:</Text> {game.date}
           </Text>
@@ -105,14 +119,47 @@ const GameDetailScreen = (props: any) => {
             <Text style={styles.label}>IGDB:</Text>{' '}
             <Text
               style={{ color: Colors.primary }}
-              onPress={() => Linking.openURL(game.url)}
+              onPress={() => game && Linking.openURL(game.url)}
             >
               Open on IGDB
             </Text>
           </Text>
 
-          {/* screenshots
-          similar games */}
+          <Text style={styles.headerTitle}>Screenshots</Text>
+          <View style={styles.centered}>
+            <Carousel
+              data={game.screenshots}
+              itemWidth={300}
+              sliderWidth={Screen.width}
+              renderItem={item => (
+                <Image style={styles.screenshot} source={{ uri: item.item }} />
+              )}
+            />
+          </View>
+
+          <Text style={styles.headerTitle}>Similar Games</Text>
+          <View style={styles.centered}>
+            <Carousel
+              data={game.similar}
+              itemWidth={180}
+              sliderWidth={Screen.width}
+              renderItem={item => (
+                <TouchableOpacity
+                  onPress={() => {
+                    selectItemHandler(item.item.id, item.item.name)
+                  }}
+                >
+                  <Image
+                    style={styles.similarImage}
+                    source={{ uri: item.item.image }}
+                  />
+                  <View style={styles.similarLabel}>
+                    <Text style={styles.similarText}>{item.item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -138,26 +185,51 @@ const styles = StyleSheet.create({
     margin: 20
   },
   header: {
-    alignItems: 'center',
-    marginBottom: 10
+    alignItems: 'center'
   },
   image: {
-    height: 240,
-    width: 180,
+    height: 288,
+    width: 216,
     marginBottom: 20
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold'
   },
-  rating: {
-    marginVertical: 10
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#666',
+    marginTop: 20,
+    marginBottom: 10
   },
-  summary: {
-    marginBottom: 20
+  rating: {
+    marginTop: 10
   },
   label: {
     fontWeight: 'bold'
+  },
+  screenshot: {
+    height: 180,
+    width: 300
+  },
+  similarImage: {
+    height: 240,
+    width: 180
+  },
+  similarLabel: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 40,
+    opacity: 0.7,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    padding: 10
+  },
+  similarText: {
+    color: 'white'
   }
 })
 
