@@ -2,6 +2,7 @@
   "expo": {
     "name": "game-search-expo",
     "slug": "game-search-expo",
+    "description": "Mobile app that lets you search for games using IGDB.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,13 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nunogois.gamesearchexpo",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.nunogois.gamesearchexpo",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

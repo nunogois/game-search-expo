@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 
+import { Ionicons } from '@expo/vector-icons'
+
 import Colors from '../constants/Colors'
 
 interface SearchProps {
@@ -23,6 +25,17 @@ const Search = (props: SearchProps) => {
         />
       </View>
       <View style={styles.button}>
+        {!!search && (
+          <Text
+            style={styles.clear}
+            onPress={() => {
+              setSearch('')
+              props.onSearch('')
+            }}
+          >
+            <Ionicons name='close-outline' size={24}></Ionicons>
+          </Text>
+        )}
         <Button
           title='Search'
           color={Colors.primary}
@@ -48,10 +61,16 @@ const styles = StyleSheet.create({
     paddingVertical: 3
   },
   search_input: {
-    flex: 0.8
+    flex: 1
+  },
+  clear: {
+    color: Colors.primary,
+    marginRight: 10
   },
   button: {
-    flex: 0.2
+    flexShrink: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })
 
