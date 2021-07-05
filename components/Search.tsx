@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
     borderColor: '#ccc',
-    borderWidth: 1
+    borderWidth: 1,
+    backgroundColor: 'white'
   },
   input: {
     paddingHorizontal: 5,
