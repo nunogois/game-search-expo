@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://bestdit.vercel.app"><img src="https://github.com/nunogois/game-search-expo/blob/master/public/demo/thumbnail.png?raw=true" height="450" /></a>  
+  <a href="https://bestdit.vercel.app"><img src="https://github.com/nunogois/game-search-expo/blob/main/demo/thumbnail.png?raw=true" height="450" /></a>  
 <p>
   
 <p align="center">
