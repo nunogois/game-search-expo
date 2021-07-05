@@ -10,9 +10,7 @@
 
 <br />
 
-<p align="center">
-  <a href="https://github.com/nunogois/game-search-expo/blob/master/demo/game-search-expo.gif?raw=true"><img src="https://github.com/nunogois/game-search-expo/blob/master/demo/game-search-expo.gif?raw=true" height="600" /></a>
-</p>
+https://user-images.githubusercontent.com/14320932/124485865-e87fd980-dda4-11eb-8b35-db2bd47570b4.mp4
 
 <br />
 
