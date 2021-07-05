@@ -3,6 +3,8 @@
 Mobile app that lets you search for games.
 Using [IGDB](https://www.igdb.com/) and built with [Expo](https://expo.io/) ([React Native](https://reactnative.dev/)).
 
+Using [igdb-api](https://github.com/nunogois/igdb-api)
+
 # 📌 To Do
 
 - [x] Create repo;
