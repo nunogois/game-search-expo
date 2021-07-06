@@ -52,8 +52,17 @@ Or download the app in [Releases](https://github.com/nunogois/game-search-expo/r
 - [x] Setup IGDB proxy API (https://github.com/nunogois/igdb-api);
 - [x] Games screen;
 - [x] GameItem component;
-- [x] Show latest highly rated games (https://api-docs.igdb.com/#sorting);
+- [x] Show popular (latest highly rated) games (https://api-docs.igdb.com/#sorting);
 - [x] Search component;
 - [x] Allow searching;
 - [x] Game detail screen;
 - [x] Make TypeScript happy;
+
+# v1.1
+
+- [x] Add LICENSE;
+- [x] Adapt from Redux to Vercel SWR;
+- [x] Adapt to the new igdb-api version;
+- [x] Better search behavior;
+- [x] Go back to search from details screen (useful in case you're in too deep!);
+- [x] Overall polish;

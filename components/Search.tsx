@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Button,
+  Keyboard
+} from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 
@@ -19,8 +26,12 @@ const Search = (props: SearchProps) => {
           style={styles.input}
           value={search}
           placeholder='Search'
+          returnKeyType='search'
           onChangeText={text => {
             setSearch(text)
+          }}
+          onSubmitEditing={() => {
+            props.onSearch(search)
           }}
         />
       </View>
@@ -29,6 +40,7 @@ const Search = (props: SearchProps) => {
           <Text
             style={styles.clear}
             onPress={() => {
+              Keyboard.dismiss()
               setSearch('')
               props.onSearch('')
             }}
@@ -40,6 +52,7 @@ const Search = (props: SearchProps) => {
           title='Search'
           color={Colors.primary}
           onPress={() => {
+            Keyboard.dismiss()
             props.onSearch(search)
           }}
         />
@@ -58,7 +71,8 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 5,
-    paddingVertical: 3
+    paddingVertical: 3,
+    paddingLeft: 10
   },
   search_input: {
     flex: 1

@@ -11,16 +11,28 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import Colors from '../constants/Colors'
-import Rating from '../components/Rating'
+import { RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { GamesStackParamList } from '../navigation/GamesNavigator'
 
-import Carousel from 'react-native-snap-carousel'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../components/UI/HeaderButton'
 
 import * as Linking from 'expo-linking'
 
+import Rating from '../components/Rating'
+import Carousel from 'react-native-snap-carousel'
+
+import Colors from '../constants/Colors'
+
 import { useGame } from '../hooks/Games'
 
-const GameDetailScreen = (props: any) => {
+type Props = {
+  route: RouteProp<GamesStackParamList, 'GameDetail'>
+  navigation: StackNavigationProp<GamesStackParamList, 'GameDetail'>
+}
+
+const GameDetailScreen = (props: Props) => {
   const gameId = props.route.params.gameId
 
   const { game, isLoading, error, reload } = useGame(gameId)
@@ -137,11 +149,20 @@ const GameDetailScreen = (props: any) => {
   )
 }
 
-export const screenOptions = (navData: {
-  route: { params: { gameName: string } }
-}) => {
+export const screenOptions = (navData: Props) => {
   return {
-    headerTitle: navData.route.params.gameName
+    headerTitle: navData.route.params.gameName,
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title='Home'
+          iconName='search-outline'
+          onPress={() => {
+            navData.navigation.navigate('Games')
+          }}
+        />
+      </HeaderButtons>
+    )
   }
 }
 
