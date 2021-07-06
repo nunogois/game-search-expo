@@ -14,32 +14,32 @@ class Game {
   name: string
   image: string
   date: string
-  platforms: [Platform]
+  platforms: Platform[]
   rating: number
   url: string
   summary: string
-  genres: [string]
-  themes: [string]
-  modes: [string]
-  companies: [string]
-  screenshots: [string]
-  similar: [SimilarGame]
+  genres: string[]
+  themes: string[]
+  modes: string[]
+  companies: string[]
+  screenshots: string[]
+  similar: SimilarGame[]
 
   constructor(
     id: number,
     name: string,
     image: string,
     date: string,
-    platforms: [Platform],
+    platforms: Platform[],
     rating: number,
     url: string,
     summary: string,
-    genres: [string],
-    themes: [string],
-    modes: [string],
-    companies: [string],
-    screenshots: [string],
-    similar: [SimilarGame]
+    genres: string[],
+    themes: string[],
+    modes: string[],
+    companies: string[],
+    screenshots: string[],
+    similar: SimilarGame[]
   ) {
     this.id = id
     this.name = name

@@ -23,7 +23,7 @@ const GameItem = (props: GameItemProps) => {
             {props.game.platforms.map(p => (
               <Image
                 style={styles.platform}
-                key={p.logo}
+                key={p.name}
                 source={{ uri: p.logo }}
               />
             ))}
