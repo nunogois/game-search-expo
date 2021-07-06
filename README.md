@@ -16,7 +16,7 @@ https://user-images.githubusercontent.com/14320932/124486380-70fe7a00-dda5-11eb-
 
 Try it out with Expo: https://expo.io/@nunogois/game-search-expo
 
-Or download the app in [Releases](https://github.com/nunogois/game-search-expo/releases/tag/v1.0).
+Or download the app in [Releases](https://github.com/nunogois/game-search-expo/releases).
 
 # ✨ Features
 
