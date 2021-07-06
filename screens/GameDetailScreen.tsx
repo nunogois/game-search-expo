@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import {
   ScrollView,
   View,
@@ -10,13 +10,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { RootState } from '../store/store'
-
-import Game from '../models/game'
-
-import * as gamesActions from '../store/actions/games'
 import Colors from '../constants/Colors'
 import Rating from '../components/Rating'
 
@@ -24,36 +18,14 @@ import Carousel from 'react-native-snap-carousel'
 
 import * as Linking from 'expo-linking'
 
+import { useGame } from '../hooks/Games'
+
 const GameDetailScreen = (props: any) => {
   const gameId = props.route.params.gameId
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>()
-
-  let game = useSelector((state: RootState) => state.games.games).find(
-    (g: Game) => g.id === gameId
-  )
+  const { game, isLoading, error, reload } = useGame(gameId)
 
   const Screen = Dimensions.get('window')
-
-  const dispatch = useDispatch()
-
-  const loadGame = useCallback(async () => {
-    setError(null)
-    setIsLoading(true)
-    try {
-      await dispatch(gamesActions.fetchGame(gameId))
-      setIsLoading(false)
-    } catch (err) {
-      setError(err.message)
-    }
-  }, [dispatch, setIsLoading, setError, gameId])
-
-  useEffect(() => {
-    if (!game) {
-      loadGame()
-    }
-  }, [loadGame, game])
 
   const selectItemHandler = (id: number, name: string) => {
     props.navigation.push('GameDetail', {
@@ -74,11 +46,10 @@ const GameDetailScreen = (props: any) => {
     return (
       <View style={styles.centered}>
         <Text>An error occurred!</Text>
-        <Text>{error}</Text>
         <Button
           title='Try again'
           onPress={() => {
-            loadGame()
+            reload()
           }}
           color={Colors.primary}
         />
