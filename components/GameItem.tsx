@@ -19,14 +19,10 @@ const GameItem = (props: GameItemProps) => {
             <Text style={styles.title}>{props.game.name}</Text>
             <Text style={styles.subtitle}>{props.game.date}</Text>
           </View>
-          <View style={styles.platforms}>
-            {props.game.platforms.map(p => (
-              <Image
-                style={styles.platform}
-                key={p.name}
-                source={{ uri: p.logo }}
-              />
-            ))}
+          <View>
+            <Text style={styles.platforms}>
+              {props.game.platforms.map(p => p.abbreviation).join(', ')}
+            </Text>
           </View>
         </View>
         <Rating style={styles.rating} value={props.game.rating} />
@@ -71,12 +67,7 @@ const styles = StyleSheet.create({
     flex: 0.8
   },
   platforms: {
-    flexDirection: 'row'
-  },
-  platform: {
-    height: 20,
-    width: 20,
-    marginHorizontal: 2
+    fontSize: 12
   },
   rating: {
     justifyContent: 'center',

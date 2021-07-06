@@ -1,5 +1,6 @@
 interface Platform {
   name: string
+  abbreviation: string
   logo: string
 }
 
